@@ -83,5 +83,6 @@ export default {
   height: 64px;
   line-height: 64px;
   text-align: center;
+  overflow: hidden;
 }
 </style>
