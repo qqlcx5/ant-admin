@@ -1,12 +1,13 @@
 <template>
-  <div class="Register">
-    Register
+  <div class="UserLayout">
+    <p>hello UserLayout</p>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Register",
+  name: "UserLayout",
   data() {
     return {};
   },

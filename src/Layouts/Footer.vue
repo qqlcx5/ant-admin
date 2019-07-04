@@ -1,12 +1,10 @@
 <template>
-  <div class="Register">
-    Register
-  </div>
+  <div class="Footer">Ant Design ©2018 Created by Ant UED</div>
 </template>
 
 <script>
 export default {
-  name: "Register",
+  name: "Footer",
   data() {
     return {};
   },

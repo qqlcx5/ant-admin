@@ -1,12 +1,10 @@
 <template>
-  <div class="Register">
-    Register
-  </div>
+  <div class="BasicForm"></div>
 </template>
 
 <script>
 export default {
-  name: "Register",
+  name: "BasicForm",
   data() {
     return {};
   },
