@@ -1,5 +1,7 @@
 <template>
-  <div class="Forbidden"></div>
+  <div class="Forbidden">
+    Forbidden
+  </div>
 </template>
 
 <script>
