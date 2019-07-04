@@ -4,11 +4,13 @@ import router from "./router";
 import store from "./store";
 
 // 配置babel.config按需引入
-import { Button, Layout, Icon, Drawer } from "ant-design-vue";
+import { Button, Layout, Icon, Drawer, Radio, Menu } from "ant-design-vue";
 Vue.use(Button);
 Vue.use(Layout);
 Vue.use(Icon);
 Vue.use(Drawer);
+Vue.use(Radio);
+Vue.use(Menu);
 Vue.config.productionTip = false;
 new Vue({
   router,

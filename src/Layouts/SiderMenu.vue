@@ -1,40 +1,72 @@
 <template>
-  <div class="Asider">
-    <!-- <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
-      <a-menu-item key="1">
-        <a-icon type="pie-chart" />
-        <span>Option 1</span>
-      </a-menu-item>
-      <a-menu-item key="2">
-        <a-icon type="desktop" />
-        <span>Option 2</span>
-      </a-menu-item>
-      <a-sub-menu key="sub1">
-        <span slot="title"><a-icon type="user" /><span>User</span></span>
-        <a-menu-item key="3">Tom</a-menu-item>
-        <a-menu-item key="4">Bill</a-menu-item>
-        <a-menu-item key="5">Alex</a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub2">
-        <span slot="title"><a-icon type="team" /><span>Team</span></span>
-        <a-menu-item key="6">Team 1</a-menu-item>
-        <a-menu-item key="8">Team 2</a-menu-item>
-      </a-sub-menu>
-      <a-menu-item key="9">
-        <a-icon type="file" />
-        <span>File</span>
-      </a-menu-item>
-    </a-menu> -->
+  <!-- <div class="Asider"></div> -->
+  <div style="width: 256px">
+    <a-menu
+      :defaultSelectedKeys="['1']"
+      :defaultOpenKeys="['2']"
+      mode="inline"
+      :theme="theme"
+      :inlineCollapsed="collapsed"
+    >
+      <template v-for="item in menuData">
+        <a-menu-item v-if="!item.children" :key="item.path">
+          <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
+          <span>{{ item.meta.title }}</span>
+        </a-menu-item>
+        <sub-menu v-else :menu-info="item" :key="item.path" />
+      </template>
+    </a-menu>
   </div>
 </template>
 
 <script>
+/*
+ * recommend SubMenu.vue https://github.com/vueComponent/ant-design-vue/blob/master/components/menu/demo/SubMenu.vue
+ * SubMenu1.vue https://github.com/vueComponent/ant-design-vue/blob/master/components/menu/demo/SubMenu1.vue
+ * */
+import SubMenu from "./SubMenu";
 export default {
   name: "Asider",
-  data() {
-    return {};
+  components: {
+    "sub-menu": SubMenu
   },
-  methods: {}
+  props: {
+    theme: {
+      type: String,
+      default: "dark"
+    }
+  },
+  data() {
+    const menuData = this.getMenuData(this.$router.options.routes);
+    return {
+      collapsed: false,
+      list: [],
+      menuData
+    };
+  },
+  methods: {
+    getMenuData(routes) {
+      const menuData = [];
+      for (let item of routes) {
+        console.log(item);
+        if (item.name && !item.hideInMenu) {
+          const newItem = { ...item };
+          delete newItem.children;
+          if (item.children && !item.hideChildrenInMenu) {
+            newItem.children = this.getMenuData(item.children);
+          }
+          menuData.push(newItem);
+        } else if (
+          !item.hideInMenu &&
+          !item.hideChildrenInMenu &&
+          item.children
+        ) {
+          menuData.push(...this.getMenuData(item.children));
+        }
+      }
+      return menuData;
+    }
+  }
 };
 </script>
 <style lang="less" scoped></style>

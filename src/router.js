@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Forbidden from "./views/User/403.vue";
@@ -13,10 +12,15 @@ const router = new Router({
   routes: [
     {
       path: "/user",
+      hideInMenu: true,
       // component: { render: h => h("router-view") },
       component: () =>
         import(/* webpackChunkName: "user" */ "./Layouts/UserLayout.vue"),
       children: [
+        {
+          path: "/user",
+          redirect: "/user/login"
+        },
         {
           path: "/user/login",
           name: "login",
@@ -44,16 +48,24 @@ const router = new Router({
         {
           path: "/dashboard",
           name: "dashboard",
-          meta: { icon: "dashboard", title: "仪表盘" },
-          component: { render: h => h("router-view") },
+          meta: {
+            icon: "dashboard",
+            title: "仪表盘"
+          },
+          component: {
+            render: h => h("router-view")
+          },
           children: [
             {
               path: "/dashboard/analysis",
               name: "analysis",
-              meta: { title: "分析页" },
+              meta: {
+                title: "分析页"
+              },
               component: () =>
                 import(
-                  /* webpackChunkName: "dashboard" */ "./views/Dashboard/Analysis"
+                  /* webpackChunkName: "dashboard" */
+                  "./views/Dashboard/Analysis"
                 )
             }
           ]
@@ -62,12 +74,17 @@ const router = new Router({
         {
           path: "/form",
           name: "form",
-          component: { render: h => h("router-view") },
+          component: {
+            render: h => h("router-view")
+          },
+          meta: { icon: "form", title: "表单" },
           children: [
             {
               path: "/form/basic-form",
               name: "basicform",
-              meta: { title: "基础表单" },
+              meta: {
+                title: "基础表单"
+              },
               component: () =>
                 import(/* webpackChunkName: "form" */ "./views/Forms/BasicForm")
             },
@@ -75,7 +92,9 @@ const router = new Router({
               path: "/form/step-form",
               name: "stepform",
               hideChildrenInMenu: true,
-              meta: { title: "分布表单" },
+              meta: {
+                title: "分布表单"
+              },
               component: () =>
                 import(/* webpackChunkName: "form" */ "./views/Forms/StepForm"),
               children: [
@@ -88,7 +107,8 @@ const router = new Router({
                   name: "info",
                   component: () =>
                     import(
-                      /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step1"
+                      /* webpackChunkName: "form" */
+                      "./views/Forms/StepForm/Step1"
                     )
                 },
                 {
@@ -96,7 +116,8 @@ const router = new Router({
                   name: "confirm",
                   component: () =>
                     import(
-                      /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step2"
+                      /* webpackChunkName: "form" */
+                      "./views/Forms/StepForm/Step2"
                     )
                 },
                 {
@@ -104,7 +125,8 @@ const router = new Router({
                   name: "result",
                   component: () =>
                     import(
-                      /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step3"
+                      /* webpackChunkName: "form" */
+                      "./views/Forms/StepForm/Step3"
                     )
                 }
               ]
@@ -124,16 +146,14 @@ const router = new Router({
       name: "404",
       hideInMenu: true,
       component: NotFound
-    },
-    {
-      path: "/",
-      name: "home",
-      component: Home
     }
   ]
 });
 router.beforeEach((to, from, next) => {
-  NProgress.start();
+  //to即将要进入的目标 路由对象 from: Route: 当前导航正要离开的路由
+  if (to.path !== from.path) {
+    NProgress.start();
+  }
   next();
 });
 
