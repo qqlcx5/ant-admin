@@ -160,6 +160,7 @@ router.beforeEach((to, from, next) => {
   }
   const record = findLast(to.matched, record => record.meta.authority);
   console.log(record, to.matched);
+  // 判断 是否guest，符合就跳出
   if (record && !check(record.meta.authority)) {
     if (!isLogin() && to.path !== "/user/login") {
       next({
