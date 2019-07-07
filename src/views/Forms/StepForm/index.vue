@@ -1,10 +1,10 @@
 <template>
-  <div class="name"></div>
+  <div class="StepForm">StepForm</div>
 </template>
 
 <script>
 export default {
-  name: "name",
+  name: "StepForm",
   data() {
     return {};
   },

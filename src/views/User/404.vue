@@ -1,5 +1,7 @@
 <template>
-  <div class="NotFound"></div>
+  <div class="NotFound">
+    NotFound
+  </div>
 </template>
 
 <script>
