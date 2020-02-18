@@ -158,8 +158,9 @@ router.beforeEach((to, from, next) => {
   if (to.path !== from.path) {
     NProgress.start();
   }
+  // findLast 这个方法类似_.find ，不同之处在于，_.findLast是从右至左遍历collection （集合）元素的。
   const record = findLast(to.matched, record => record.meta.authority);
-  console.log(record, to.matched);
+  console.log(to.matched);
   // 判断 是否guest，符合就跳出
   if (record && !check(record.meta.authority)) {
     if (!isLogin() && to.path !== "/user/login") {
